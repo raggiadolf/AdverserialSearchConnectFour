@@ -70,7 +70,7 @@ public class State {
         char token = this.player.charAt(0);
 
         /**
-         * Vertical check.
+         * Vertical check
          */
         int count = 0;
         if(this.lastRow >= 4) {
@@ -103,6 +103,27 @@ public class State {
                 }
                 isOver = true;
             }
+        } else {
+            for(int i = 0; i < lastCol; i++) {
+                for(int j = i; j < i + 4; j++) {
+                    if(this.grid[i][j] != token) {
+                        isOver = false;
+                        break;
+                    }
+                }
+                if(isOver) {
+                    return true;
+                }
+                isOver = true;
+            }
+        }
+
+        /**
+         * Diagonal check
+         */
+
+        if(this.lastCol >= 3) {
+            
         }
 
         return false;
