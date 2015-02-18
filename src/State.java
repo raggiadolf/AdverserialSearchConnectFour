@@ -69,7 +69,6 @@ public class State {
     public boolean goalTest() {
         char token = this.player.charAt(0);
 
-
         /**
          * Vertical check.
          */
@@ -90,14 +89,21 @@ public class State {
         /**
          * Horizontal check
          */
+        boolean isOver = true;
         if(this.lastCol >= 3) {
-            for(int i = 0; i < lastCol; i++) {
+            for(int i = lastCol - 3; i < 4; i++) {
                 for (int j = i; j < i + 4; j++) {
-
+                    if(this.grid[i][j] != token) {
+                        isOver = false;
+                        break;
+                    }
                 }
+                if(isOver) {
+                    return true;
+                }
+                isOver = true;
             }
         }
-
 
         return false;
     }
