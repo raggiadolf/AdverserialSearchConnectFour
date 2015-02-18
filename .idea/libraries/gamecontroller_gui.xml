@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="gamecontroller-gui">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/gamecontroller-gui.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
