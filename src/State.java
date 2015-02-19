@@ -9,15 +9,15 @@ public class State {
     private int lastCol;
     private int lastRow;
 
-    public State(String player, char[][] grid, int col, int row) {
+    public State(String player, char[][] grid, int row, int col) {
         this.grid = grid;
         this.player = player;
-        this.lastCol = col;
         this.lastRow = row;
+        this.lastCol = col;
     }
 
     public Collection<String> LegalMoves() {
-        /*
+        /**
          * 2d array
          */
         List<String> moves = new ArrayList<String>();
@@ -63,7 +63,7 @@ public class State {
             newPlayer = this.player;
         }
 
-        return new State(newPlayer, newGrid, col, row);
+        return new State(newPlayer, newGrid, row, col);
     }
 
     public boolean goalTest() {
@@ -72,10 +72,11 @@ public class State {
         /**
          * Vertical check
          */
+        
         int count = 0;
         if(this.lastRow >= 4) {
             for(int i = lastRow; i > lastRow - 4; i--) {
-                if(this.grid[lastCol][i] != token) {
+                if(this.grid[i][lastCol] != token) {
                     break;
                 } else {
                     count++;
@@ -257,5 +258,22 @@ public class State {
             }
         }
         return hash * 6151;
+    }
+
+    public static void main(String[] args) {
+        char[][] arr = new char[][]{
+            {'\u0000', 'W', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'},
+            {'\u0000', 'W', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'},
+            {'\u0000', 'W', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'},
+            {'\u0000', 'W', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'},
+            {'\u0000', 'R', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'},
+            {'\u0000', 'R', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'}
+        };
+
+        String player = "WHITE";
+
+        State testState = new State(player, arr, 5, 1);
+
+        System.out.println(testState.goalTest());
     }
 }
