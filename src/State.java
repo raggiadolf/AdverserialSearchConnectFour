@@ -1,3 +1,5 @@
+//package AdverserialSearchConnectFour;
+
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,6 +11,13 @@ public class State {
     private int lastCol;
     private int lastRow;
 
+    public State(String player, char[][] grid) {
+        this.grid = grid;
+        this.player = player;
+        this.lastRow = -1;
+        this.lastCol = -1;
+    }
+    
     public State(String player, char[][] grid, int row, int col) {
         this.grid = grid;
         this.player = player;
@@ -94,7 +103,7 @@ public class State {
         if(this.lastCol >= 3) {
             for(int i = lastCol - 3; i < 4; i++) {
                 for (int j = i; j < i + 4; j++) {
-                    if(this.grid[i][j] != token) {
+                    if(this.grid[lastRow][j] != token) {
                         isOver = false;
                         break;
                     }
@@ -105,9 +114,9 @@ public class State {
                 isOver = true;
             }
         } else {
-            for(int i = 0; i < lastCol; i++) {
+            for(int i = 0; i <= lastCol; i++) {
                 for(int j = i; j < i + 4; j++) {
-                    if(this.grid[i][j] != token) {
+                    if(this.grid[lastRow][j] != token) {
                         isOver = false;
                         break;
                     }
@@ -139,7 +148,7 @@ public class State {
             }
         }
 
-        for ( ; startRow > 2 || startCol > 3 ; startRow++, startCol++) {
+        for ( ; startRow > 2 || startCol > 3 ; startRow--, startCol--) {
             for (i = startRow; i < 3; i++) {
                 for (j = startCol; j < 4; j++) {
                     if (i > 5 || j > 6) {
@@ -262,17 +271,17 @@ public class State {
 
     public static void main(String[] args) {
         char[][] arr = new char[][]{
-            {'\u0000', 'W', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'},
-            {'\u0000', 'W', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'},
-            {'\u0000', 'W', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'},
-            {'\u0000', 'W', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'},
             {'\u0000', 'R', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'},
-            {'\u0000', 'R', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'}
+            {'\u0000', 'W', 'R', 'R', 'W', 'W', '\u0000'},
+            {'\u0000', 'W', 'W', '\u0000', '\u0000', '\u0000', '\u0000'},
+            {'\u0000', 'W', '\u0000', 'W', '\u0000', '\u0000', '\u0000'},
+            {'\u0000', 'W', '\u0000', '\u0000', 'W', '\u0000', '\u0000'},
+            {'\u0000', 'W', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'}
         };
 
         String player = "WHITE";
 
-        State testState = new State(player, arr, 5, 1);
+        State testState = new State(player, arr, 4, 4);
 
         System.out.println(testState.goalTest());
     }
