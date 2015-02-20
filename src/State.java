@@ -40,6 +40,15 @@ public class State {
         return moves;
     }
 
+    public boolean TerminalTest() {
+        for(int i = 0; i < 7; i++) {
+            if(this.grid[5][i] == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public State resultingState(String action) {
         char[][] newGrid = this.grid.clone();
 
