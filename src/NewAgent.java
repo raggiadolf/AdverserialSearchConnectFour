@@ -5,9 +5,12 @@
  */
 public class NewAgent implements Agent {
 
+    private static int MAX_DEPTH = 10;
+
     private String role;
     private int playclock;
     private boolean myTurn;
+    private State myState;
 
     /*
 	 *	init(String role, int playclock) is called once before you have to select the first action.
@@ -19,7 +22,18 @@ public class NewAgent implements Agent {
         this.playclock = playclock;
         myTurn = role.equals("WHITE");
 
-        // TODO: add your own initialization code here
+        // TODID: add your own initialization code here
+
+        char[][] arr = new char[][]{
+                {'\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'},
+                {'\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'},
+                {'\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'},
+                {'\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'},
+                {'\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'},
+                {'\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'}
+        };
+
+        myState = new State(role, arr);
 
     }
 
@@ -28,8 +42,14 @@ public class NewAgent implements Agent {
     public String nextAction(int lastDrop) {
         // TODO: 1. update your internal world model according to the action that was just executed
 
+        if(lastDrop > 0) {
+            myState.ResultingState("(DROP " + (lastDrop - 1) + ")");
+        }
+
         myTurn = !myTurn;
         // TODO: 2. run alpha-beta search to determine the best move
+
+
 
         if (myTurn) {
             return "(DROP 1)";
