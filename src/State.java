@@ -31,9 +31,9 @@ public class State {
          */
         List<String> moves = new ArrayList<String>();
 
-        for(int i = 0; i < this.grid.length; i++) {
-            if(this.grid[i][6] != 0) {
-                moves.add("(DROP " + i + 1 + ")");
+        for(int i = 0; i < 7; i++) {
+            if(this.grid[5][i] == 0) {
+                moves.add("(DROP " + (i + 1) + ")");
             }
         }
 
@@ -55,8 +55,8 @@ public class State {
         }
 
         int row = 0;
-        for(int i = 0; i < this.grid[col].length; i++) {
-            if(this.grid[col][i] != 0) {
+        for(int i = 0; i < 6; i++) {
+            if(this.grid[i][col] != '\u0000') {
                 row++;
             } else {
                 break;
@@ -254,6 +254,43 @@ public class State {
         return false;
     }
 
+    public int eval() {
+        int redCount = 0;
+        int whiteCount = 0;
+        for(int i = 0; i < 6; i++) {
+            for(int j = 0; j < 6; j++) {
+                if((this.grid[i][j] == this.grid[i][j + 1]) && (this.grid[i][j] != 0)) {
+                    if(this.grid[i][j] == 'W') {
+                        whiteCount++;
+                    } else {
+                        redCount++;
+                    }
+                }
+            }
+        }
+
+        if(whiteCount > 0) {
+            whiteCount++;
+        }
+        if(redCount > 0) {
+            redCount++;
+        }
+
+        for(int i = 0; i < 5; i++) {
+            for(int j = 0; j < 6; j++) {
+                if((this.grid[j][i]) == this.grid[j][i] && (this.grid[j][i] != 0)) {
+                    if(this.grid[j][i] == 'W') {
+                        whiteCount++;
+                    } else {
+                        redCount++;
+                    }
+                }
+            }
+        }
+
+        return whiteCount - redCount;
+    }
+
 
     @Override
     public String toString() {
@@ -323,18 +360,32 @@ public class State {
 
     public static void main(String[] args) {
         char[][] arr = new char[][]{
-            {'\u0000', 'R', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'},
-            {'\u0000', 'R', 'R', 'R', 'W', 'W', '\u0000'},
-            {'\u0000', 'W', 'R', '\u0000', '\u0000', '\u0000', 'W'},
-            {'\u0000', 'W', '\u0000', 'R', '\u0000', 'W', '\u0000'},
-            {'\u0000', 'W', '\u0000', '\u0000', 'W', '\u0000', '\u0000'},
-            {'\u0000', 'W', '\u0000', 'W', '\u0000', 'W', '\u0000'}
+            {'\u0000', 'R', 'W',      'R',      'W',      'R',      'W'     },
+            {'\u0000', 'R', 'R',      'R',      'W',      'W',      'R'     },
+            {'\u0000', 'W', 'R',      'R',      'W',      'R',      'W'     },
+            {0       , 'W', '\u0000', 'R',      'W',      'W',      '\u0000'},
+            {'\u0000', 'W', '\u0000', 'W',      'W',      'R',      0       },
+            {'\u0000', 'R', '\u0000', '\u0000', '\u0000', 0,        '\u0000'}
         };
 
         String player = "WHITE";
 
         State testState = new State(player, arr, 2, 6);
 
-        System.out.println(testState.goalTest());
+        System.out.println(testState);
+        Collection<String> moves = testState.LegalMoves();
+
+        System.out.println(testState.eval());
+        /*
+        testState.resultingState("(DROP 1)");
+        testState.resultingState("(DROP 2)");
+        testState.resultingState("(DROP 3)");
+        testState.resultingState("(DROP 4)");
+        testState.resultingState("(DROP 5)");
+        testState.resultingState("(DROP 6)");
+        testState.resultingState("(DROP 7)");
+        */
+        //System.out.println(testState);
+        //System.out.println(testState.goalTest());
     }
 }
