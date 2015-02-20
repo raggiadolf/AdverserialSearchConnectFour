@@ -49,7 +49,7 @@ public class State {
         return true;
     }
 
-    public State resultingState(String action) {
+    public State ResultingState(String action) {
         char[][] newGrid = this.grid.clone();
 
         char token = this.player.charAt(0);
