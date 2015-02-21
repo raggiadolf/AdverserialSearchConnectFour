@@ -52,7 +52,7 @@ public class NewAgent implements Agent {
 
 
         if (myTurn) {
-            return "(DROP 1)";
+            return AlphaBetaSearch.AlphaBeta(MAX_DEPTH, myState, Integer.MIN_VALUE, Integer.MAX_VALUE).getMove();
         } else {
             return "NOOP";
         }

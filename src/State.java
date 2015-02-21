@@ -25,6 +25,10 @@ public class State {
         this.lastCol = col;
     }
 
+    public String getLastMove() {
+        return "(DROP " + this.lastCol + ")";
+    }
+
     public Collection<String> LegalMoves() {
         /**
          * 2d array
@@ -84,7 +88,7 @@ public class State {
         return new State(newPlayer, newGrid, row, col);
     }
 
-    public boolean goalTest() {
+    public boolean GoalTest() {
         char token = this.player.charAt(0);
 
         /**
