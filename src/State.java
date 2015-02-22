@@ -26,18 +26,15 @@ public class State {
     }
 
     public String getLastMove() {
-        return "(DROP " + this.lastCol + ")";
+        return "(DROP " + (this.lastCol + 1) + ")";
     }
 
-    public Collection<String> LegalMoves() {
-        /**
-         * 2d array
-         */
-        List<String> moves = new ArrayList<String>();
+    public Collection<Integer> LegalMoves() {
+        List<Integer> moves = new ArrayList<Integer>();
 
         for(int i = 0; i < 7; i++) {
             if(this.grid[5][i] == 0) {
-                moves.add("(DROP " + (i + 1) + ")");
+                moves.add(i);
             }
         }
 
@@ -53,19 +50,10 @@ public class State {
         return true;
     }
 
-    public State ResultingState(String action) {
-        char[][] newGrid = this.grid.clone();
+    public State ResultingState(Integer col) {
+        char[][] newGrid = deepCopy(this.grid);
 
         char token = this.player.charAt(0);
-
-        int col = 0;
-        Matcher m = Pattern.compile("\\(\\s*DROP\\s+([0-9]+)\\s*\\)").matcher(action);
-        if(m.matches()) {
-            col = (Integer.parseInt(m.group(1))) - 1;
-        } else {
-            System.out.println("Error. Not a valid column number. Assemble the troops.");
-            System.exit(1);
-        }
 
         int row = 0;
         for(int i = 0; i < 6; i++) {
@@ -76,16 +64,30 @@ public class State {
             }
         }
 
+
         newGrid[row][col] = token;
 
         String newPlayer;
         if(token == 'W') {
             newPlayer = "RED";
         } else {
-            newPlayer = this.player;
+            newPlayer = "WHITE";
         }
 
         return new State(newPlayer, newGrid, row, col);
+    }
+
+    private static char[][] deepCopy(char[][] original) {
+        if(original == null) {
+            return null;
+        }
+
+        final char[][] result = new char[original.length][];
+        for(int i = 0; i < original.length; i++) {
+            result[i] = Arrays.copyOf(original[i], original[i].length);
+        }
+
+        return result;
     }
 
     public boolean GoalTest() {
@@ -386,7 +388,7 @@ public class State {
         State testState = new State(player, arr, 2, 6);
 
         System.out.println(testState);
-        Collection<String> moves = testState.LegalMoves();
+        Collection<Integer> moves = testState.LegalMoves();
 
         System.out.println(testState.eval());
         /*

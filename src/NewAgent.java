@@ -5,7 +5,7 @@
  */
 public class NewAgent implements Agent {
 
-    private static int MAX_DEPTH = 10;
+    private static int MAX_DEPTH = 2;
 
     private String role;
     private int playclock;
@@ -20,7 +20,7 @@ public class NewAgent implements Agent {
     public void init(String role, int playclock) {
         this.role = role;
         this.playclock = playclock;
-        myTurn = role.equals("WHITE");
+        myTurn = !role.equals("WHITE");
 
         // TODID: add your own initialization code here
 
@@ -33,7 +33,7 @@ public class NewAgent implements Agent {
                 {'\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'}
         };
 
-        myState = new State(role, arr);
+        myState = new State(role, arr, 1, 1);
 
     }
 
@@ -43,7 +43,7 @@ public class NewAgent implements Agent {
         // TODO: 1. update your internal world model according to the action that was just executed
 
         if(lastDrop > 0) {
-            myState.ResultingState("(DROP " + (lastDrop - 1) + ")");
+            myState.ResultingState(lastDrop - 1);
         }
 
         myTurn = !myTurn;
@@ -52,7 +52,8 @@ public class NewAgent implements Agent {
 
 
         if (myTurn) {
-            return AlphaBetaSearch.AlphaBeta(MAX_DEPTH, myState, Integer.MIN_VALUE, Integer.MAX_VALUE).getMove();
+            String nextMove = AlphaBetaSearch.AlphaBeta(MAX_DEPTH, myState, Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1).getMove();
+            return nextMove;
         } else {
             return "NOOP";
         }

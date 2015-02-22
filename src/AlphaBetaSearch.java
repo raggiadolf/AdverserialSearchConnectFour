@@ -39,16 +39,16 @@ public class AlphaBetaSearch {
 
         bestMove.setScore(Integer.MIN_VALUE); /* Already done in the constructor? */
 
-        for(String action : state.LegalMoves()) {
+        for(Integer action : state.LegalMoves()) {
             reply = AlphaBeta(depth - 1, state.ResultingState(action), -beta, -alpha);
             reply.setScore(-reply.getScore());
 
             bestMove.setScore(Math.max(reply.getScore(), bestMove.getScore()));
-            bestMove.setMove(action);
+            bestMove.setMove(reply.getMove());
 
             if(bestMove.getScore() > alpha) {
                 alpha = bestMove.getScore();
-                if(alpha >= beta) break;
+                if(alpha >= beta) return bestMove;
             }
         }
 
