@@ -5,36 +5,6 @@ import java.util.List;
 
 public class AlphaBetaSearch {
 
-
-    /*
-    public static int AlphaBeta(int depth, State state, int alpha, int beta) {
-        int bestValue, value;
-        if(state.TerminalTest() || depth <= 0) {
-            return state.eval();
-        }
-        bestValue = Integer.MIN_VALUE + 1;
-
-        Collection<Integer> actions = state.LegalMoves();
-
-        for(Integer action : actions) {
-            value = -AlphaBeta(depth - 1, state.ResultingState(action), -beta, -alpha);
-
-            bestValue = Math.max(value, bestValue);
-            if(bestValue > alpha) {
-                alpha = bestValue;
-            }
-            if(alpha >= beta) break;
-        }
-
-        return bestValue;
-    }
-
-    public String GetBestMove(int depth, State state, int alpha, int beta) {
-        int Value = AlphaBeta(depth, state, alpha, beta);
-        return null;
-    }
-    */
-
     public static Node AlphaBetaSearch(int depth, State state) {
         return MaxValue(depth, state, Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1);
     }
@@ -56,7 +26,9 @@ public class AlphaBetaSearch {
         for(Integer action : actions) {
             reply = MinValue(depth - 1, state.ResultingState(action), alpha, beta);
 
-            if(reply.getScore() > bestMove.getScore()) {
+            System.out.println("I am MaxValue, depth: " + depth + ", value: " + reply.getScore() + ", move: " + reply.getMove());
+
+            if(reply.getScore() >= bestMove.getScore()) {
                 bestMove.setScore(reply.getScore());
                 bestMove.setMove(reply.getMove());
             }
@@ -87,7 +59,9 @@ public class AlphaBetaSearch {
         for(Integer action : actions) {
             reply = MaxValue(depth - 1, state.ResultingState(action), alpha, beta);
 
-            if(reply.getScore() < bestMove.getScore()) {
+            System.out.println("I am MinValue, depth: " + depth + ", value: " + reply.getScore() + ", move: " + reply.getMove());
+
+            if(reply.getScore() <= bestMove.getScore()) {
                 bestMove.setScore(reply.getScore());
                 bestMove.setMove(reply.getMove());
             }
@@ -96,7 +70,7 @@ public class AlphaBetaSearch {
                 return bestMove;
             }
 
-            beta = Math.max(beta, bestMove.getScore());
+            beta = Math.min(beta, bestMove.getScore());
         }
         return bestMove;
     }
@@ -165,26 +139,26 @@ public class AlphaBetaSearch {
 
 
 
-    public Node AlphaBeta(int depth, State state, int alpha, int beta) {
+    public static Node AlphaBeta(int depth, State state, int alpha, int beta) {
         Node bestMove = new Node();
         Node reply;
 
         if(state.TerminalTest() || depth <= 0) {
             bestMove.setScore(state.eval());
             bestMove.setMove(state.getLastMove());
+            System.out.println("depth: " + depth + ", value: " + bestMove.getScore() + ", move: " + bestMove.getMove());
             return bestMove;
         }
 
         List<Integer> actions = state.LegalMoves();
 
-        // TODO: Try to find the 'best' action instead of just shuffling.
-
-        Collections.shuffle(actions);
+        Collections.shuffle(actions);   // TODO: Try to find the 'best' action instead of just shuffling.
 
         for(Integer action : actions) {
             reply = AlphaBeta(depth - 1, state.ResultingState(action), -beta, -alpha);
             reply.setScore(-reply.getScore());
-
+            System.out.println("depth: " + depth + ", value: " + reply.getScore() + ", move: " + reply.getMove());
+            //System.out.println(state.ResultingState(action));
             if(reply.getScore() > bestMove.getScore()) {
                 bestMove.setMove(reply.getMove());
                 bestMove.setScore(reply.getScore());

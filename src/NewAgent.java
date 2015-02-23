@@ -5,7 +5,7 @@
  */
 public class NewAgent implements Agent {
 
-    private static int MAX_DEPTH = 13;
+    private static int MAX_DEPTH = 9;
 
     private String role;
     private int playclock;
@@ -26,6 +26,7 @@ public class NewAgent implements Agent {
 	*/
     public void init(String role, int playclock) {
         this.role = role;
+        System.out.println("role: " + role);
         this.playclock = playclock;
         myTurn = !role.equals("WHITE");
 
@@ -40,7 +41,16 @@ public class NewAgent implements Agent {
                 {0, 0, 0, 0, 0, 0, 0}
         };
 
-        myState = new State(role, arr, 1, 1);
+        char[][] testarr = new char[][]{
+                {'R', 'W', 'R', 'W', 'R', 'W', 'R'},
+                {'W', 'R', 'W', 'R', 'W', 'R', 'W'},
+                {'R', 'W', 'R', 'W', 'R', 'W', 'R'},
+                {'R', 'W', 'R', 'W', 'R', 'W', 'R'},
+                {'R', 'W', 'R', 'W', 'R', 'W', 'R'},
+                {0, 0, 0, 0, 0, 0, 0}
+        };
+
+        myState = new State("RED", arr, 1, 1);
 
     }
 
@@ -50,24 +60,28 @@ public class NewAgent implements Agent {
         // TODO: 1. update your internal world model according to the action that was just executed
 
         if(lastDrop > 0) {
-            myState.ResultingState(lastDrop - 1);
+            myState = myState.ResultingState(lastDrop - 1);
         }
 
         myTurn = !myTurn;
         // TODO: 2. run alpha-beta search to determine the best move
 
-
-
         if (myTurn) {
-            //String nextMove = AlphaBetaSearch.AlphaBetaSearch(MAX_DEPTH, myState).getMove();
-            AlphaBetaSearch abs = new AlphaBetaSearch();
-            Node nextMove = abs.AlphaBeta(MAX_DEPTH, myState, Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1);
-            System.out.println("nextMove.score: " + nextMove.getScore());
-            System.out.println("nextMove.move: " + nextMove.getMove());
-            return nextMove.getMove();
+            Node nextMove = new Node();
+            //try {
+                //for(int i = 1; i < MAX_DEPTH; i++) {
+                    nextMove = AlphaBetaSearch.AlphaBetaSearch(MAX_DEPTH, myState);
+                    //Node nextMove = AlphaBetaSearch.AlphaBeta(MAX_DEPTH, myState, Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1);
+                    System.out.println("nextMove.score: " + nextMove.getScore());
+                    System.out.println("nextMove.move: " + nextMove.getMove());
+                //}
+            //} catch(Exception ex) {
+                return nextMove.getMove();
+            //}
         } else {
             return "NOOP";
         }
+        //return "NOOP"; /* Should never fire */
     }
 
     /*

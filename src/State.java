@@ -51,7 +51,13 @@ public class State {
     public State ResultingState(Integer col) {
         char[][] newGrid = deepCopy(this.grid);
 
-        char token = this.player.charAt(0);
+        char token;
+
+        if(this.player.charAt(0) == 'W') {
+            token = 'R';
+        } else {
+            token = 'W';
+        }
 
         int row = 0;
         for(int i = 0; i < 6; i++) {
@@ -62,14 +68,13 @@ public class State {
             }
         }
 
-
         newGrid[row][col] = token;
 
         String newPlayer;
         if(token == 'W') {
-            newPlayer = "RED";
-        } else {
             newPlayer = "WHITE";
+        } else {
+            newPlayer = "RED";
         }
 
         return new State(newPlayer, newGrid, row, col);
@@ -268,14 +273,20 @@ public class State {
     }
 
     public int eval() {
+        int utility = 138;
+        int sum = 0;
+
         if(this.GoalTest()) {
             return 1000;
         }
 
-        int utility = 138;
-        int sum = 0;
+        char token;
 
-        char token = this.player.charAt(0);
+        if(this.player.charAt(0) == 'W') {
+            token = 'R';
+        } else {
+            token = 'W';
+        }
 
         for(int i = 0; i < 6; i++) {
             for(int j = 0; j < 7; j++) {
