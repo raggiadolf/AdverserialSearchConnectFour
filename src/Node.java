@@ -5,7 +5,7 @@ public class Node {
 
     public Node() {
         this.move = null;
-        this.score = Integer.MIN_VALUE;
+        this.score = Integer.MIN_VALUE + 1;
     }
 
     public void setScore(int score) { this.score = score; }

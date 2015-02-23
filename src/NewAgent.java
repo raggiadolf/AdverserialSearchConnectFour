@@ -5,12 +5,19 @@
  */
 public class NewAgent implements Agent {
 
-    private static int MAX_DEPTH = 2;
+    private static int MAX_DEPTH = 13;
 
     private String role;
     private int playclock;
     private boolean myTurn;
     private State myState;
+
+    public static int[][] evaluationTable = {{3, 4, 5, 7, 5, 4, 3},
+                                             {4, 6, 8, 10, 8, 6, 4},
+                                             {5, 8, 11, 13, 11, 8, 5},
+                                             {5, 8, 11, 13, 11, 8, 5},
+                                             {4, 6, 8, 10, 8, 6, 4},
+                                             {3, 4, 5, 7, 5, 4, 3}};
 
     /*
 	 *	init(String role, int playclock) is called once before you have to select the first action.
@@ -25,12 +32,12 @@ public class NewAgent implements Agent {
         // TODID: add your own initialization code here
 
         char[][] arr = new char[][]{
-                {'\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'},
-                {'\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'},
-                {'\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'},
-                {'\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'},
-                {'\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'},
-                {'\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000'}
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0}
         };
 
         myState = new State(role, arr, 1, 1);
@@ -52,8 +59,12 @@ public class NewAgent implements Agent {
 
 
         if (myTurn) {
-            String nextMove = AlphaBetaSearch.AlphaBeta(MAX_DEPTH, myState, Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1).getMove();
-            return nextMove;
+            //String nextMove = AlphaBetaSearch.AlphaBetaSearch(MAX_DEPTH, myState).getMove();
+            AlphaBetaSearch abs = new AlphaBetaSearch();
+            Node nextMove = abs.AlphaBeta(MAX_DEPTH, myState, Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1);
+            System.out.println("nextMove.score: " + nextMove.getScore());
+            System.out.println("nextMove.move: " + nextMove.getMove());
+            return nextMove.getMove();
         } else {
             return "NOOP";
         }

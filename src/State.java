@@ -1,8 +1,6 @@
 //package AdverserialSearchConnectFour;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class State {
 
@@ -29,7 +27,7 @@ public class State {
         return "(DROP " + (this.lastCol + 1) + ")";
     }
 
-    public Collection<Integer> LegalMoves() {
+    public List<Integer> LegalMoves() {
         List<Integer> moves = new ArrayList<Integer>();
 
         for(int i = 0; i < 7; i++) {
@@ -270,6 +268,28 @@ public class State {
     }
 
     public int eval() {
+        if(this.GoalTest()) {
+            return 1000;
+        }
+
+        int utility = 138;
+        int sum = 0;
+
+        char token = this.player.charAt(0);
+
+        for(int i = 0; i < 6; i++) {
+            for(int j = 0; j < 7; j++) {
+                if(this.grid[i][j] == token) {
+                    sum += NewAgent.evaluationTable[i][j];
+                } else if(this.grid[i][j] != 0) {
+                    sum -= NewAgent.evaluationTable[i][j];
+                }
+            }
+        }
+
+        return utility + sum;
+
+        /*
         int redCount = 0;
         int whiteCount = 0;
         for(int i = 0; i < 6; i++) {
@@ -293,7 +313,7 @@ public class State {
 
         for(int i = 0; i < 5; i++) {
             for(int j = 0; j < 6; j++) {
-                if((this.grid[j][i]) == this.grid[j][i] && (this.grid[j][i] != 0)) {
+                if((this.grid[j][i]) == this.grid[j][i + 1] && (this.grid[j][i] != 0)) {
                     if(this.grid[j][i] == 'W') {
                         whiteCount++;
                     } else {
@@ -304,6 +324,7 @@ public class State {
         }
 
         return whiteCount - redCount;
+        */
     }
 
 
