@@ -67,6 +67,8 @@ public class NewAgent implements Agent {
         // TODO: 2. run alpha-beta search to determine the best move
 
         if (myTurn) {
+            System.out.println("myState:");
+            System.out.println(myState);
             Node nextMove = new Node();
             AlphaBetaSearch abs = new AlphaBetaSearch(playclock);
             try {

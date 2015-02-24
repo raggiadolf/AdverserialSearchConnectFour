@@ -24,6 +24,7 @@ public class State {
     }
 
     public String getLastMove() {
+        //return (this.lastCol + 1)
         return "(DROP " + (this.lastCol + 1) + ")";
     }
 
@@ -405,6 +406,52 @@ public class State {
             }
         }
         return hash * 6151;
+    }
+
+    public void DoMove(int action) {
+        char token;
+
+        if(this.player.charAt(0) == 'W') {
+            token = 'R';
+        } else {
+            token = 'W';
+        }
+
+        int row = 0;
+        for(int i = 0; i < 6; i++) {
+            if(this.grid[i][action] != 0) {
+                row++;
+            } else {
+                break;
+            }
+        }
+
+        this.grid[row][action] = token;
+
+        if(token == 'W') {
+            this.player = "WHITE";
+        } else {
+            this.player = "RED";
+        }
+    }
+
+    public void UndoMove(int action) {
+        int row = 0;
+        for(int i = 0; i < 6; i++) {
+            if(this.grid[i][action] != 0) {
+                row++;
+            } else {
+                break;
+            }
+        }
+
+        this.grid[--row][action] = 0;
+
+        if(this.player.equals("WHITE")) {
+            this.player = "RED";
+        } else {
+            this.player = "WHITE";
+        }
     }
 
     public static void main(String[] args) {
