@@ -23,8 +23,15 @@ public class State {
         this.lastCol = col;
     }
 
+    public State(State that) {
+        this.grid = deepCopy(that.grid);
+        this.player = that.player;
+        this.lastCol = that.lastCol;
+        this.lastRow = that.lastRow;
+    }
+
     public String getLastMove() {
-        //return (this.lastCol + 1)
+        //return (this.lastCol + 1);
         return "(DROP " + (this.lastCol + 1) + ")";
     }
 
@@ -82,6 +89,7 @@ public class State {
 
         return new State(newPlayer, newGrid, row, col);
     }
+
 
     private static char[][] deepCopy(char[][] original) {
         if(original == null) {

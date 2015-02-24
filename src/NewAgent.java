@@ -67,24 +67,32 @@ public class NewAgent implements Agent {
         // TODO: 2. run alpha-beta search to determine the best move
 
         if (myTurn) {
-            System.out.println("myState:");
-            System.out.println(myState);
+            State searchState = new State(myState);
+            //System.out.println("myState:");
+            //System.out.println(myState);
+            //int nextMove = 0;
             Node nextMove = new Node();
             AlphaBetaSearch abs = new AlphaBetaSearch(playclock);
             try {
                 for(int i = 1; i <= MAX_DEPTH; i++) {
                     System.out.println("i: " + i);
-                    nextMove = abs.AlphaBeta(i, myState, Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1);
-                    System.out.println("nextMove.score: " + nextMove.getScore());
-                    System.out.println("nextMove.move: " + nextMove.getMove());
+                    nextMove = abs.AlphaBeta(i, searchState, Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1);
+                    //System.out.println("nextMove.score: " + nextMove.getScore());
+                    //System.out.println("nextMove.move: " + nextMove.getMove());
                 }
                 System.out.println("nextMove.score: " + nextMove.getScore());
                 System.out.println("nextMove.move: " + nextMove.getMove());
+                System.out.println("state after:");
+                System.out.println(myState);
                 return nextMove.getMove();
+                //return "(DROP " + nextMove + ")";
             } catch(OutOfTimeException ex) {
                 System.out.println("nextMove.score: " + nextMove.getScore());
                 System.out.println("nextMove.move: " + nextMove.getMove());
+                //System.out.println("state after:");
+                //System.out.println(myState);
                 return nextMove.getMove();
+                //return "(DROP " + nextMove + ")";
             }
         } else {
             return "NOOP";
