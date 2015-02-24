@@ -40,12 +40,14 @@ public class State {
     }
 
     public boolean TerminalTest() {
+        boolean isTerminal = true;
         for(int i = 0; i < 7; i++) {
             if(this.grid[5][i] == 0) {
-                return false;
+                isTerminal = false;
+                break;
             }
         }
-        return true;
+        return (isTerminal || GoalTest());
     }
 
     public State ResultingState(Integer col) {
@@ -61,7 +63,7 @@ public class State {
 
         int row = 0;
         for(int i = 0; i < 6; i++) {
-            if(this.grid[i][col] != '\u0000') {
+            if(this.grid[i][col] != 0) {
                 row++;
             } else {
                 break;
@@ -277,7 +279,7 @@ public class State {
         int sum = 0;
 
         if(this.GoalTest()) {
-            return 1000;
+            return -1000;
         }
 
         char token;
