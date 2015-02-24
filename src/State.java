@@ -300,8 +300,6 @@ public class State {
             }
         }
 
-        return utility + sum;
-
         /*
         int redCount = 0;
         int whiteCount = 0;
@@ -338,6 +336,187 @@ public class State {
 
         return whiteCount - redCount;
         */
+
+        
+        
+        int redCount = 0, whiteCount = 0;
+        
+        for(int k = 0; k < 7; k++){
+        	for(int l = 0; l < 6; l++){
+        		
+        		/**
+                 * Vertical check
+                 */
+        		
+        		if(l >= 4) {
+                    for(int i = l; i > l - 4; i--) {
+                        if(this.grid[i][k] == 'R') {
+                            redCount++;
+                        } else if(this.grid[i][k] == 'W'){
+                            whiteCount++;
+                        }
+                    }
+                    if(whiteCount == 3 && redCount == 0) {
+                    	if(token == 'R'){
+                    		sum -= 20;
+                    	}
+                    	else{
+                    		sum += 20;
+                    	}
+                    }
+                    else if(whiteCount == 0 && redCount == 3){
+                    	if(token == 'R'){
+                    		sum += 20;
+                    	}
+                    	else{
+                    		sum -= 20;
+                    	}
+                    }
+                }
+        		
+        		whiteCount = 0;
+        		redCount = 0;
+
+                /**
+                 * Horizontal check
+                 */
+                if(k == 4) {
+                    for(int i = k - 3; i < 4; i++) {
+                    	whiteCount = 0;
+                		redCount = 0;
+                        for (int j = i; j < i + 4; j++) {
+                        	if(this.grid[l][j] == 'R') {
+                                redCount++;
+                            } else if(this.grid[l][j] == 'W'){
+                                whiteCount++;
+                            }
+                        }
+                        if(whiteCount == 3 && redCount == 0) {
+                        	if(token == 'R'){
+                        		sum -= 20;
+                        	}
+                        	else{
+                        		sum += 20;
+                        	}
+                        }
+                        else if(whiteCount == 0 && redCount == 3){
+                        	if(token == 'R'){
+                        		sum += 20;
+                        	}
+                        	else{
+                        		sum -= 20;
+                        	}
+                        }
+                    }
+                }
+                
+                whiteCount = 0;
+                redCount = 0;
+
+                /**
+                 * Diagonal check
+                 */
+                
+                if(k == 4){
+                	
+                	int startRow = 0, startCol = 0;
+                    int i, j;
+                    
+                    if(k >= l){
+                    	if(l < 3){
+                    		startRow = 0;
+                    		startCol = k - l;
+                    	}
+                    	else{
+                    		startRow = l - 3;
+                    		startCol = k - 3;
+                    	}
+                    }
+                    else{
+                		startRow = l - 3;
+                		startCol = k - 3;
+                    }
+
+                    for ( ; startRow < 3 && startCol < 4 ; startRow++, startCol++) {
+                        whiteCount = 0;
+                        redCount = 0;
+                    	for (i = startRow, j = startCol; i < startRow + 3 && j < startCol + 3; i++, j++) {
+                        	if(this.grid[i][j] == 'R') {
+                                redCount++;
+                            } else if(this.grid[i][j] == 'W'){
+                                whiteCount++;
+                            }
+                        }
+                        if(whiteCount == 3 && redCount == 0) {
+                        	if(token == 'R'){
+                        		sum -= 20;
+                        	}
+                        	else{
+                        		sum += 20;
+                        	}
+                        }
+                        else if(whiteCount == 0 && redCount == 3){
+                        	if(token == 'R'){
+                        		sum += 20;
+                        	}
+                        	else{
+                        		sum -= 20;
+                        	}
+                        }
+                    }
+                    
+                    if(k >= (5 - l)){
+                    	if(l > 2){
+                    		startRow = 5;
+                    		startCol = k - (5 - l);
+                    	}
+                    	else{
+                    		startRow = l + 3;
+                    		startCol = k - 3;
+                    	}
+                    }
+                    else{
+                    	if(k < 3){
+                    		startRow = l + k;
+                    		startCol = 0;
+                    	}
+                    	else{
+                    		startRow = l + 3;
+                    		startCol = k - 3;
+                    	}
+                    }
+                    
+                    for ( ; startRow > 2 && startCol < 4 ; startRow--, startCol++) {
+                        whiteCount = 0;
+                        redCount = 0;
+                    	for (i = startRow, j = startCol; i > startRow - 3 && j < startCol + 3; i--, j++) {
+                        	if(this.grid[i][j] == 'R') {
+                                redCount++;
+                            } else if(this.grid[i][j] == 'W'){
+                                whiteCount++;
+                            }
+                        }
+                        if(whiteCount == 3 && redCount == 0) {
+                        	if(token == 'R'){
+                        		sum -= 20;
+                        	}
+                        	else{
+                        		sum += 20;
+                        	}
+                        }
+                        else if(whiteCount == 0 && redCount == 3){
+                        	if(token == 'R'){
+                        		sum += 20;
+                        	}
+                        	else{
+                        		sum -= 20;
+                        	}
+                        }
+                    }
+                }
+        	}
+        }
+        return utility + sum;
     }
 
 
