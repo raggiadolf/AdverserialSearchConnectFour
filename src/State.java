@@ -112,7 +112,7 @@ public class State {
          */
         
         int count = 0;
-        if(this.lastRow >= 4) {
+        if(this.lastRow >= 3) {
             for(int i = lastRow; i > lastRow - 4; i--) {
                 if(this.grid[i][lastCol] != token) {
                     break;
@@ -185,19 +185,6 @@ public class State {
         		startCol = this.lastCol - 3;
         	}
         }
-        
-        /*for (i = this.lastRow, j = this.lastCol; i >= 0 && j >= 0; i--, j--) {
-            for (j = this.lastCol; j >= 0; j--) {
-                if (i == 0 || j == 0 || i == (this.lastRow - 3) || j == (this.lastCol - 3)) {
-                    startRow = i;
-                    startCol = j;
-                    break;
-                }
-            }
-            if (startRow == i && startCol == j) {
-                break;
-            }
-        }*/
 
         for ( ; startRow < 3 && startCol < 4 ; startRow++, startCol++) {
             for (i = startRow, j = startCol; i < startRow + 3 && j < startCol + 3; i++, j++) {
@@ -212,19 +199,6 @@ public class State {
             }
             isOver = true;
         }
-
-        /*for (i = this.lastRow; i >=5; i++) {
-            for (j = this.lastCol; j >= 0; j--) {
-                if (i == 5 || j == 0 || i == (this.lastRow + 3) || j == (this.lastCol - 3)) {
-                    startRow = i;
-                    startCol = j;
-                    break;
-                }
-            }
-            if (startRow == i && startCol == j) {
-                break;
-            }
-        }*/
         
         if(this.lastCol >= (5 - this.lastRow)){
         	if(this.lastRow > 2){
@@ -260,25 +234,6 @@ public class State {
             }
             isOver = true;
         }
-
-        /*for ( ; startRow < 3 || startCol > 3 ; startRow--, startCol++) {
-            for (i = startRow; i > 2; i--) {
-                for (j = startCol; j < 4; j++) {
-                    if (i < 1 || j > 6) {
-                        isOver = false;
-                        break;
-                    }
-                    if(this.grid[i][j] != token) {
-                        isOver = false;
-                        break;
-                    }
-                }
-                if (isOver) {
-                    return true;
-                }
-                isOver = true;
-            }
-        }*/
 
         return false;
     }
