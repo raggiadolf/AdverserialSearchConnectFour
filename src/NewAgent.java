@@ -77,8 +77,8 @@ public class NewAgent implements Agent {
                 for(int i = 1; i <= MAX_DEPTH; i++) {
                     System.out.println("i: " + i);
                     nextMove = abs.AlphaBeta(i, searchState, Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1);
-                    //System.out.println("nextMove.score: " + nextMove.getScore());
-                    //System.out.println("nextMove.move: " + nextMove.getMove());
+                    System.out.println("nextMove.score: " + nextMove.getScore());
+                    System.out.println("nextMove.move: " + nextMove.getMove());
                 }
                 System.out.println("nextMove.score: " + nextMove.getScore());
                 System.out.println("nextMove.move: " + nextMove.getMove());
@@ -105,9 +105,44 @@ public class NewAgent implements Agent {
     public static void main(String[] args) {
         NewAgent agent = new NewAgent();
         char[][] arr = new char[6][7];
-        State myState = new State(agent.role, arr);
 
-        System.out.println("Printing state");
-        System.out.println(myState);
+        char[][] whiteTestarr = new char[][] {
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 'W', 'W', 'W', 0, 0, 0}
+        };
+
+        char[][] redTestarr = new char[][] {
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 'R', 'R', 'R', 0, 0, 0}
+        };
+
+        State WhiteState = new State("RED", whiteTestarr, 5, 2);
+        State WhiteStateTwo = new State("WHITE", whiteTestarr, 5, 2);
+        State RedState = new State("RED", redTestarr, 5, 2);
+        State RedStateTwo = new State("WHITE", redTestarr, 5, 2);
+
+        System.out.println("Printing WhiteState:");
+        System.out.println(WhiteState);
+        System.out.println("WhiteEval: " + WhiteState.eval());
+
+        System.out.println("Printing WhiteStateTwo:");
+        System.out.println(WhiteStateTwo);
+        System.out.println("WhiteEval: " + WhiteStateTwo.eval());
+
+        System.out.println("Printing RedState:");
+        System.out.println(RedState);
+        System.out.println("RedEval: " + RedState.eval());
+
+        System.out.println("Printing RedStateTwo:");
+        System.out.println(RedStateTwo);
+        System.out.println("RedEval: " + RedStateTwo.eval());
     }
 }

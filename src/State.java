@@ -288,6 +288,7 @@ public class State {
         int sum = 0;
 
         if(this.GoalTest()) {
+            System.out.println("Found a goal state, winner is: " + this.player);
             return -1000;
         }
 
