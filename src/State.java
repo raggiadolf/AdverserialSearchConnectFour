@@ -357,7 +357,7 @@ public class State {
                  * Vertical check
                  */
         		
-        		if(l >= 4) {
+        		if(l >= 3) {
                     for(int i = l; i > l - 4; i--) {
                         if(this.grid[i][k] == 'R') {
                             redCount++;
@@ -405,7 +405,7 @@ public class State {
                 /**
                  * Horizontal check
                  */
-                if(k == 4) {
+                if(k == 3) {
                     for(int i = 0; i < 4; i++) {
                     	whiteCount = 0;
                 		redCount = 0;
@@ -458,7 +458,7 @@ public class State {
                  * Diagonal check
                  */
                 
-                if(k == 4){
+                if(k == 3){
                 	
                 	int startRow = 0, startCol = 0;
                     int i, j;
