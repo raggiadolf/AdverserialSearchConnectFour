@@ -358,7 +358,7 @@ public class State {
                  * Vertical check
                  */
         		
-        		if(l >= 4) {
+        		if(l >= 3) {
                     for(int i = l; i > l - 4; i--) {
                         if(this.grid[i][k] == 'R') {
                             redCount++;
@@ -382,6 +382,38 @@ public class State {
                     		sum -= 20;
                     	}
                     }
+                    if(whiteCount == 2 && redCount == 0) {
+                    	if(token == 'R'){
+                    		sum -= 10;
+                    	}
+                    	else{
+                    		sum += 10;
+                    	}
+                    }
+                    else if(whiteCount == 0 && redCount == 2){
+                    	if(token == 'R'){
+                    		sum += 10;
+                    	}
+                    	else{
+                    		sum -= 10;
+                    	}
+                    }
+                    else if(whiteCount == 4 && redCount == 0) {
+                    	if(token == 'R'){
+                    		sum -= 1000;
+                    	}
+                    	else{
+                    		sum += 1000;
+                    	}
+                    }
+                    else if(whiteCount == 0 && redCount == 4){
+                    	if(token == 'R'){
+                    		sum += 1000;
+                    	}
+                    	else{
+                    		sum -= 1000;
+                    	}
+                    }
                 }
         		
         		whiteCount = 0;
@@ -390,8 +422,8 @@ public class State {
                 /**
                  * Horizontal check
                  */
-                if(k == 4) {
-                    for(int i = k - 3; i < 4; i++) {
+                if(k == 3) {
+                    for(int i = 0; i < 4; i++) {
                     	whiteCount = 0;
                 		redCount = 0;
                         for (int j = i; j < i + 4; j++) {
@@ -417,6 +449,38 @@ public class State {
                         		sum -= 20;
                         	}
                         }
+                        else if(whiteCount == 2 && redCount == 0) {
+                        	if(token == 'R'){
+                        		sum -= 10;
+                        	}
+                        	else{
+                        		sum += 10;
+                        	}
+                        }
+                        else if(whiteCount == 0 && redCount == 2){
+                        	if(token == 'R'){
+                        		sum += 10;
+                        	}
+                        	else{
+                        		sum -= 10;
+                        	}
+                        }
+                        else if(whiteCount == 4 && redCount == 0) {
+                        	if(token == 'R'){
+                        		sum -= 1000;
+                        	}
+                        	else{
+                        		sum += 1000;
+                        	}
+                        }
+                        else if(whiteCount == 0 && redCount == 4){
+                        	if(token == 'R'){
+                        		sum += 1000;
+                        	}
+                        	else{
+                        		sum -= 1000;
+                        	}
+                        }
                     }
                 }
                 
@@ -427,7 +491,7 @@ public class State {
                  * Diagonal check
                  */
                 
-                if(k == 4){
+                if(k == 3){
                 	
                 	int startRow = 0, startCol = 0;
                     int i, j;
@@ -471,6 +535,38 @@ public class State {
                         	}
                         	else{
                         		sum -= 20;
+                        	}
+                        }
+                        else if(whiteCount == 2 && redCount == 0) {
+                        	if(token == 'R'){
+                        		sum -= 10;
+                        	}
+                        	else{
+                        		sum += 10;
+                        	}
+                        }
+                        else if(whiteCount == 0 && redCount == 2){
+                        	if(token == 'R'){
+                        		sum += 10;
+                        	}
+                        	else{
+                        		sum -= 10;
+                        	}
+                        }
+                        else if(whiteCount == 4 && redCount == 0) {
+                        	if(token == 'R'){
+                        		sum -= 1000;
+                        	}
+                        	else{
+                        		sum += 1000;
+                        	}
+                        }
+                        else if(whiteCount == 0 && redCount == 4){
+                        	if(token == 'R'){
+                        		sum += 1000;
+                        	}
+                        	else{
+                        		sum -= 1000;
                         	}
                         }
                     }
@@ -520,6 +616,38 @@ public class State {
                         	}
                         	else{
                         		sum -= 20;
+                        	}
+                        }
+                        else if(whiteCount == 2 && redCount == 0) {
+                        	if(token == 'R'){
+                        		sum -= 10;
+                        	}
+                        	else{
+                        		sum += 10;
+                        	}
+                        }
+                        else if(whiteCount == 0 && redCount == 2){
+                        	if(token == 'R'){
+                        		sum += 10;
+                        	}
+                        	else{
+                        		sum -= 10;
+                        	}
+                        }
+                        else if(whiteCount == 4 && redCount == 0) {
+                        	if(token == 'R'){
+                        		sum -= 1000;
+                        	}
+                        	else{
+                        		sum += 1000;
+                        	}
+                        }
+                        else if(whiteCount == 0 && redCount == 4){
+                        	if(token == 'R'){
+                        		sum += 1000;
+                        	}
+                        	else{
+                        		sum -= 1000;
                         	}
                         }
                     }
