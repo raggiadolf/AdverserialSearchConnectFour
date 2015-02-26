@@ -352,6 +352,22 @@ public class State {
                     		sum -= 10;
                     	}
                     }
+                    else if(whiteCount == 4 && redCount == 0) {
+                    	if(token == 'R'){
+                    		sum -= 1000;
+                    	}
+                    	else{
+                    		sum += 1000;
+                    	}
+                    }
+                    else if(whiteCount == 0 && redCount == 4){
+                    	if(token == 'R'){
+                    		sum += 1000;
+                    	}
+                    	else{
+                    		sum -= 1000;
+                    	}
+                    }
                 }
         		else if(l == 2){
         			for(int i = l; i > l - 3; i--) {
@@ -428,6 +444,22 @@ public class State {
                         		sum -= 10;
                         	}
                         }
+                        else if(whiteCount == 4 && redCount == 0) {
+                        	if(token == 'R'){
+                        		sum -= 1000;
+                        	}
+                        	else{
+                        		sum += 1000;
+                        	}
+                        }
+                        else if(whiteCount == 0 && redCount == 4){
+                        	if(token == 'R'){
+                        		sum += 1000;
+                        	}
+                        	else{
+                        		sum -= 1000;
+                        	}
+                        }
                     }
                 }
                 
@@ -500,6 +532,22 @@ public class State {
                         		sum -= 10;
                         	}
                         }
+                        else if(whiteCount == 4 && redCount == 0) {
+                        	if(token == 'R'){
+                        		sum -= 1000;
+                        	}
+                        	else{
+                        		sum += 1000;
+                        	}
+                        }
+                        else if(whiteCount == 0 && redCount == 4){
+                        	if(token == 'R'){
+                        		sum += 1000;
+                        	}
+                        	else{
+                        		sum -= 1000;
+                        	}
+                        }
                     }
                     
                     if(k >= (5 - l)){
@@ -563,6 +611,22 @@ public class State {
                         	}
                         	else{
                         		sum -= 10;
+                        	}
+                        }
+                        else if(whiteCount == 4 && redCount == 0) {
+                        	if(token == 'R'){
+                        		sum -= 1000;
+                        	}
+                        	else{
+                        		sum += 1000;
+                        	}
+                        }
+                        else if(whiteCount == 0 && redCount == 4){
+                        	if(token == 'R'){
+                        		sum += 1000;
+                        	}
+                        	else{
+                        		sum -= 1000;
                         	}
                         }
                     }
