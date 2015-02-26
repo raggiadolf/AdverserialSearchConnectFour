@@ -185,16 +185,19 @@ public class State {
         		startCol = this.lastCol - 3;
         	}
         }
+        
+        int diagCount = 0;
 
         for ( ; startRow < 3 && startCol < 4 ; startRow++, startCol++) {
-            for (i = startRow, j = startCol; i < startRow + 3 && j < startCol + 3; i++, j++) {
-                //for (j = startCol; j < 4; j++) {
+        	diagCount = 0;
+            for (i = startRow, j = startCol; i < startRow + 4 && j < startCol + 4; i++, j++) {
+            	diagCount++;
                 if (this.grid[i][j] != token) {
                     isOver = false;
                     break;
                 }
             }
-            if (isOver) {
+            if (isOver && diagCount == 4) {
                 return true;
             }
             isOver = true;
@@ -222,14 +225,15 @@ public class State {
         }
         
         for ( ; startRow > 2 && startCol < 4 ; startRow--, startCol++) {
-            for (i = startRow, j = startCol; i > startRow - 3 && j < startCol + 3; i--, j++) {
-                //for (j = startCol; j < 4; j++) {
+        	diagCount = 0;
+            for (i = startRow, j = startCol; i > startRow - 4 && j < startCol + 4; i--, j++) {
+                diagCount++;
                 if (this.grid[i][j] != token) {
                     isOver = false;
                     break;
                 }
             }
-            if (isOver) {
+            if (isOver && diagCount == 4) {
                 return true;
             }
             isOver = true;
@@ -320,7 +324,23 @@ public class State {
                             whiteCount++;
                         }
                     }
-                    if(whiteCount == 3 && redCount == 0) {
+                    if(whiteCount == 4 && redCount == 0) {
+                    	if(token == 'R'){
+                    		sum -= 1000;
+                    	}
+                    	else{
+                    		sum += 1000;
+                    	}
+                    }
+                    else if(whiteCount == 0 && redCount == 4){
+                    	if(token == 'R'){
+                    		sum += 1000;
+                    	}
+                    	else{
+                    		sum -= 1000;
+                    	}
+                    }
+                    else if(whiteCount == 3 && redCount == 0) {
                     	if(token == 'R'){
                     		sum -= 20;
                     	}
@@ -335,6 +355,31 @@ public class State {
                     	else{
                     		sum -= 20;
                     	}
+                    }
+                    else if(whiteCount == 2 && redCount == 0) {
+                    	if(token == 'R'){
+                    		sum -= 10;
+                    	}
+                    	else{
+                    		sum += 10;
+                    	}
+                    }
+                    else if(whiteCount == 0 && redCount == 2){
+                    	if(token == 'R'){
+                    		sum += 10;
+                    	}
+                    	else{
+                    		sum -= 10;
+                    	}
+                    }
+                }
+        		else if(l == 2){
+        			for(int i = l; i > l - 3; i--) {
+                        if(this.grid[i][k] == 'R') {
+                            redCount++;
+                        } else if(this.grid[i][k] == 'W'){
+                            whiteCount++;
+                        }
                     }
                     if(whiteCount == 2 && redCount == 0) {
                     	if(token == 'R'){
@@ -352,23 +397,7 @@ public class State {
                     		sum -= 10;
                     	}
                     }
-                    else if(whiteCount == 4 && redCount == 0) {
-                    	if(token == 'R'){
-                    		sum -= 1000;
-                    	}
-                    	else{
-                    		sum += 1000;
-                    	}
-                    }
-                    else if(whiteCount == 0 && redCount == 4){
-                    	if(token == 'R'){
-                    		sum += 1000;
-                    	}
-                    	else{
-                    		sum -= 1000;
-                    	}
-                    }
-                }
+        		}
         		
         		whiteCount = 0;
         		redCount = 0;
@@ -468,7 +497,7 @@ public class State {
                     for ( ; startRow < 3 && startCol < 4 ; startRow++, startCol++) {
                         whiteCount = 0;
                         redCount = 0;
-                    	for (i = startRow, j = startCol; i < startRow + 3 && j < startCol + 3; i++, j++) {
+                    	for (i = startRow, j = startCol; i < startRow + 4 && j < startCol + 4; i++, j++) {
                         	if(this.grid[i][j] == 'R') {
                                 redCount++;
                             } else if(this.grid[i][j] == 'W'){
@@ -549,7 +578,7 @@ public class State {
                     for ( ; startRow > 2 && startCol < 4 ; startRow--, startCol++) {
                         whiteCount = 0;
                         redCount = 0;
-                    	for (i = startRow, j = startCol; i > startRow - 3 && j < startCol + 3; i--, j++) {
+                    	for (i = startRow, j = startCol; i > startRow - 4 && j < startCol + 4; i--, j++) {
                         	if(this.grid[i][j] == 'R') {
                                 redCount++;
                             } else if(this.grid[i][j] == 'W'){
