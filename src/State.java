@@ -8,13 +8,6 @@ public class State {
     private String player;
     private int lastCol;
     private int lastRow;
-
-    public State(String player, char[][] grid) {
-        this.grid = grid;
-        this.player = player;
-        this.lastRow = -1;
-        this.lastCol = -1;
-    }
     
     public State(String player, char[][] grid, int row, int col) {
         this.grid = grid;
@@ -30,11 +23,21 @@ public class State {
         this.lastRow = that.lastRow;
     }
 
+    /**
+     * this.lastCol holds the column last dropped into,
+     * +1 to offset because the board is 1 indexed while our
+     * grid is 0 indexed.
+     * @return The move that led to the current state.
+     */
     public String getLastMove() {
-        //return (this.lastCol + 1);
         return "(DROP " + (this.lastCol + 1) + ")";
     }
 
+    /**
+     * Loops through the grid and if the top row is empty, dropping
+     * into that column is legal.
+     * @return A list of moves which are legal in the current state.
+     */
     public List<Integer> LegalMoves() {
         List<Integer> moves = new ArrayList<Integer>();
 
@@ -47,6 +50,11 @@ public class State {
         return moves;
     }
 
+    /**
+     * Checks if all of the top rows are full, if they are, we have a terminal state.
+     * Also checks if the current state is a goalstate for the current player.
+     * @return boolean value.
+     */
     public boolean TerminalTest() {
         boolean isTerminal = true;
         for(int i = 0; i < 7; i++) {
@@ -58,6 +66,12 @@ public class State {
         return (isTerminal || GoalTest());
     }
 
+    /**
+     * Takes a deep copy of the grid, drops a token into a column
+     * switches players for the state, and returns a resulting state.
+     * @param col, the column to drop a token into.
+     * @return A new state after dropping a token into col.
+     */
     public State ResultingState(Integer col) {
         char[][] newGrid = deepCopy(this.grid);
 
@@ -90,7 +104,12 @@ public class State {
         return new State(newPlayer, newGrid, row, col);
     }
 
-
+    /**
+     * Just used to get a deep copy of our current grid when we want to create
+     * a resulting state.
+     * @param original, the state we want a copy of.
+     * @return a deep copy of the original state.
+     */
     private static char[][] deepCopy(char[][] original) {
         if(original == null) {
             return null;
@@ -104,6 +123,12 @@ public class State {
         return result;
     }
 
+    /**
+     * Checks for vertical/horizontal/diagonal winning conditions, only
+     * looking around the place where the last token was dropped.
+     * @return true/false depending on if the current state has been won
+     * by the last player who dropped a token.
+     */
     public boolean GoalTest() {
         char token = this.player.charAt(0);
 
@@ -242,12 +267,21 @@ public class State {
         return false;
     }
 
+    /**
+     * If the state is already a goal, the last player has already won, and we
+     * return a negative score to the player who's turn it is to do next.
+     * Otherwise we start by evaluating the current board against a pre-defined
+     * evaluation board, to see which of the players has the 'better' squares captured.
+     * Then we sum up pairs of two, three and four tokens for each of the player and give
+     * scores depending on which player has the sequences.
+     * @return A score for the board, from the perspective of the player who's
+     * turn it is to drop the next token.
+     */
     public int eval() {
         int utility = 138;
         int sum = 0;
 
         if(this.GoalTest()) {
-            //System.out.println("Found a goal state, winner is: " + this.player);
             return -1000;
         }
 
@@ -269,45 +303,6 @@ public class State {
             }
         }
 
-        /*
-        int redCount = 0;
-        int whiteCount = 0;
-        for(int i = 0; i < 6; i++) {
-            for(int j = 0; j < 6; j++) {
-                if((this.grid[i][j] == this.grid[i][j + 1]) && (this.grid[i][j] != 0)) {
-                    if(this.grid[i][j] == 'W') {
-                        whiteCount++;
-                    } else {
-                        redCount++;
-                    }
-                }
-            }
-        }
-
-        if(whiteCount > 0) {
-            whiteCount++;
-        }
-        if(redCount > 0) {
-            redCount++;
-        }
-
-        for(int i = 0; i < 5; i++) {
-            for(int j = 0; j < 6; j++) {
-                if((this.grid[j][i]) == this.grid[j][i + 1] && (this.grid[j][i] != 0)) {
-                    if(this.grid[j][i] == 'W') {
-                        whiteCount++;
-                    } else {
-                        redCount++;
-                    }
-                }
-            }
-        }
-
-        return whiteCount - redCount;
-        */
-
-        
-        
         int redCount = 0, whiteCount = 0;
         
         for(int k = 0; k < 7; k++){
@@ -641,7 +636,10 @@ public class State {
         return utility + sum;
     }
 
-
+    /**
+     * Prints the board to stdout, useful for debugging.
+     * @return String which represents the board of the current state.
+     */
     @Override
     public String toString() {
         String output = " ";
@@ -673,6 +671,11 @@ public class State {
         return output;
     }
 
+    /**
+     * Compares two states by checking if the boards are the same.
+     * @param obj, a state.
+     * @return true/false depending on whether the states are the same.
+     */
     @Override
     public boolean equals(Object obj) {
         if(!(obj instanceof State)) {
@@ -689,6 +692,11 @@ public class State {
         return true;
     }
 
+    /**
+     * A naive hashing function for the states, not used, so we didn't
+     * give it any more thought.
+     * @return hash value for the current state.
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -708,6 +716,11 @@ public class State {
         return hash * 6151;
     }
 
+    /**
+     * Modifies the current state by placing a token and updating the
+     * lastRow/lastCol variables, and switching the player.
+     * @param action, the move that should be performed.
+     */
     public void DoMove(int action) {
         char token;
 
@@ -737,6 +750,13 @@ public class State {
         }
     }
 
+    /**
+     * Undo's the last move that was performed on this state.
+     * Note that we do not have to modify the lastRow/lastCol variables,
+     * since after we use this action, our search algorithm does not evaluate
+     * this state or look for a goal state(which depend on lastRow/lastCol).
+     * @param action the move(column) that should be undone.
+     */
     public void UndoMove(int action) {
         int row = 0;
         for(int i = 0; i < 6; i++) {
@@ -754,36 +774,5 @@ public class State {
         } else {
             this.player = "WHITE";
         }
-    }
-
-    public static void main(String[] args) {
-        char[][] arr = new char[][]{
-            {'\u0000', 'R', 'W',      'R',      'W',      'R',      'W'     },
-            {'\u0000', 'R', 'R',      'R',      'W',      'W',      'R'     },
-            {'\u0000', 'W', 'R',      'R',      'W',      'R',      'W'     },
-            {0       , 'W', '\u0000', 'R',      'W',      'W',      '\u0000'},
-            {'\u0000', 'W', '\u0000', 'W',      'W',      'R',      0       },
-            {'\u0000', 'R', '\u0000', '\u0000', '\u0000', 0,        '\u0000'}
-        };
-
-        String player = "WHITE";
-
-        State testState = new State(player, arr, 2, 6);
-
-        System.out.println(testState);
-        Collection<Integer> moves = testState.LegalMoves();
-
-        System.out.println(testState.eval());
-        /*
-        testState.resultingState("(DROP 1)");
-        testState.resultingState("(DROP 2)");
-        testState.resultingState("(DROP 3)");
-        testState.resultingState("(DROP 4)");
-        testState.resultingState("(DROP 5)");
-        testState.resultingState("(DROP 6)");
-        testState.resultingState("(DROP 7)");
-        */
-        //System.out.println(testState);
-        //System.out.println(testState.goalTest());
     }
 }

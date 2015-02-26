@@ -1,5 +1,5 @@
 /**
- * Created by ragnaradolf on 24/02/15.
+ * Just used to throw the agent out of the search if the time is up.
  */
 public class OutOfTimeException extends Exception {
     public OutOfTimeException(String message) {

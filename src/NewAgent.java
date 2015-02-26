@@ -1,23 +1,20 @@
 //package AdverserialSearchConnectFour;
 
-/**
- * Created by ragnaradolf on 16/02/15.
- */
 public class NewAgent implements Agent {
 
-    private static int MAX_DEPTH = 2;
+    private static int MAX_DEPTH = 200;
 
     private String role;
     public int playclock;
     private boolean myTurn;
     private State myState;
 
-    public static int[][] evaluationTable = {{3, 4, 5, 7, 5, 4, 3},
-                                             {4, 6, 8, 10, 8, 6, 4},
+    public static int[][] evaluationTable = {{3, 4,  5,  7,  5, 4, 3},
+                                             {4, 6,  8, 10,  8, 6, 4},
                                              {5, 8, 11, 13, 11, 8, 5},
                                              {5, 8, 11, 13, 11, 8, 5},
-                                             {4, 6, 8, 10, 8, 6, 4},
-                                             {3, 4, 5, 7, 5, 4, 3}};
+                                             {4, 6,  8, 10,  8, 6, 4},
+                                             {3, 4,  5,  7,  5, 4, 3}};
 
     /*
 	 *	init(String role, int playclock) is called once before you have to select the first action.
@@ -30,8 +27,6 @@ public class NewAgent implements Agent {
         this.playclock = playclock;
         myTurn = !role.equals("WHITE");
 
-        // TODID: add your own initialization code here
-
         char[][] arr = new char[][]{
                 {0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 0},
@@ -41,58 +36,39 @@ public class NewAgent implements Agent {
                 {0, 0, 0, 0, 0, 0, 0}
         };
 
-        char[][] testarr = new char[][]{
-                {  0, 'R', 'W', 'W', 'R', 'R', 'R'},
-                {  0, 'W', 'W', 'W', 'R',   0, 'R'},
-                {  0, 'R',   0, 'R', 'W',   0, 'R'},
-                {  0, 'R',   0, 'W', 'W',   0, 'W'},
-                {  0,   0,   0, 'R', 'R',   0,   0},
-                {  0,   0,   0, 'W', 'R',   0,   0}
-        };
-
-        myState = new State("RED", testarr, 1, 1);
+        myState = new State("RED", arr, 1, 1);
 
     }
 
     // lastDrop is 0 for the first call of nextAction (no action has been executed),
     // otherwise it is a number n with 0<n<8 indicating the column that the last piece was dropped in by the player whose turn it was
+
+    /**
+     * The agent has a copy of the state, which he updates accordingly as the game is played.
+     * He then makes a single copy of that state which he sends to the search function.
+     * He iterates through depths looking for the best move, and if he runs out of time he catches
+     * an exception, and uses the value which was returned from the last iteration of the search.
+     */
     public String nextAction(int lastDrop) {
-        // TODO: 1. update your internal world model according to the action that was just executed
 
         if(lastDrop > 0) {
             myState = myState.ResultingState(lastDrop - 1);
         }
 
         myTurn = !myTurn;
-        // TODO: 2. run alpha-beta search to determine the best move
 
         if (myTurn) {
             State searchState = new State(myState);
-            //System.out.println("myState:");
-            //System.out.println(myState);
-            //int nextMove = 0;
             Node nextMove = new Node();
             AlphaBetaSearch abs = new AlphaBetaSearch(playclock);
             try {
                 for(int i = 2; i <= MAX_DEPTH; i++) {
                     System.out.println("i: " + i);
                     nextMove = abs.AlphaBeta(i, searchState, Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1);
-                    //System.out.println("nextMove.score: " + nextMove.getScore());
-                    //System.out.println("nextMove.move: " + nextMove.getMove());
                 }
-                System.out.println("nextMove.score: " + nextMove.getScore());
-                System.out.println("nextMove.move: " + nextMove.getMove());
-                System.out.println("state after:");
-                System.out.println(myState);
                 return nextMove.getMove();
-                //return "(DROP " + nextMove + ")";
             } catch(OutOfTimeException ex) {
-                System.out.println("nextMove.score: " + nextMove.getScore());
-                System.out.println("nextMove.move: " + nextMove.getMove());
-                //System.out.println("state after:");
-                //System.out.println(myState);
                 return nextMove.getMove();
-                //return "(DROP " + nextMove + ")";
             }
         } else {
             return "NOOP";
@@ -100,12 +76,9 @@ public class NewAgent implements Agent {
     }
 
     /*
-     * Tester
+     * Tester for the eval function.
      */
     public static void main(String[] args) {
-        NewAgent agent = new NewAgent();
-        char[][] arr = new char[6][7];
-
         char[][] whiteTestarr = new char[][] {
                 {0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 0},

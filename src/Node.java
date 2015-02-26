@@ -1,4 +1,8 @@
 
+/**
+ * Nodes of the search tree that the search generates.
+ * Holds the score for a particular move, and the move.
+ */
 public class Node {
     private String move;
     private int score;
