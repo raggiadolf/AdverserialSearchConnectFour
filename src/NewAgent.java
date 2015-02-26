@@ -5,7 +5,7 @@
  */
 public class NewAgent implements Agent {
 
-    private static int MAX_DEPTH = 20;
+    private static int MAX_DEPTH = 2;
 
     private String role;
     public int playclock;
@@ -42,15 +42,15 @@ public class NewAgent implements Agent {
         };
 
         char[][] testarr = new char[][]{
-                {'R', 'W', 'R', 'W', 'R', 'W', 'R'},
-                {'W', 'R', 'W', 'R', 'W', 'R', 'W'},
-                {'R', 'W', 'R', 'W', 'R', 'W', 'R'},
-                {'R', 'W', 'R', 'W', 'R', 'W', 'R'},
-                {'R', 'W', 'R', 'W', 'R', 'W', 'R'},
-                {  0,   0,   0,   0,   0,   0,  0 }
+                {  0, 'R', 'W', 'W', 'R', 'R', 'R'},
+                {  0, 'W', 'W', 'W', 'R',   0, 'R'},
+                {  0, 'R',   0, 'R', 'W',   0, 'R'},
+                {  0, 'R',   0, 'W', 'W',   0, 'W'},
+                {  0,   0,   0, 'R', 'R',   0,   0},
+                {  0,   0,   0, 'W', 'R',   0,   0}
         };
 
-        myState = new State("RED", arr, 1, 1);
+        myState = new State("RED", testarr, 1, 1);
 
     }
 
@@ -74,11 +74,11 @@ public class NewAgent implements Agent {
             Node nextMove = new Node();
             AlphaBetaSearch abs = new AlphaBetaSearch(playclock);
             try {
-                for(int i = 1; i <= MAX_DEPTH; i++) {
+                for(int i = 2; i <= MAX_DEPTH; i++) {
                     System.out.println("i: " + i);
                     nextMove = abs.AlphaBeta(i, searchState, Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1);
-                    System.out.println("nextMove.score: " + nextMove.getScore());
-                    System.out.println("nextMove.move: " + nextMove.getMove());
+                    //System.out.println("nextMove.score: " + nextMove.getScore());
+                    //System.out.println("nextMove.move: " + nextMove.getMove());
                 }
                 System.out.println("nextMove.score: " + nextMove.getScore());
                 System.out.println("nextMove.move: " + nextMove.getMove());

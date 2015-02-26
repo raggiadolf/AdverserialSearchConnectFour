@@ -23,7 +23,7 @@ public class AlphaBetaSearch{
 
         if(timeUsed > (this.playclock - 500)) {
             System.out.println("Throwing exception!");
-            throw new OutOfTimeException("Out of time!");
+            //throw new OutOfTimeException("Out of time!");
         }
 
         if(state.TerminalTest() || depth <= 0) {
@@ -33,7 +33,7 @@ public class AlphaBetaSearch{
         }
 
         List<Integer> actions = state.LegalMoves();
-        Collections.shuffle(actions);
+        //Collections.shuffle(actions);
 
         for(Integer action : actions) {
             //reply = AlphaBeta(depth - 1, state.ResultingState(action), -beta, -alpha);
@@ -43,7 +43,7 @@ public class AlphaBetaSearch{
             reply.setScore(-reply.getScore());
             state.UndoMove(action);
 
-            //System.out.println("depth: " + depth + ", value: " + reply.getScore() + ", move: (" + (action + 1) + ")");
+            System.out.println("depth: " + depth + ", value: " + reply.getScore() + ", move: (" + (action + 1) + "), alpha: " + alpha + ", beta: " + beta);
             if(reply.getScore() > bestMove.getScore()) {
                 bestMove.setMove("(DROP " + (action + 1) + ")");
                 bestMove.setScore(reply.getScore());

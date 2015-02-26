@@ -112,7 +112,7 @@ public class State {
          */
         
         int count = 0;
-        if(this.lastRow >= 4) {
+        if(this.lastRow >= 3) {
             for(int i = lastRow; i > lastRow - 4; i--) {
                 if(this.grid[i][lastCol] != token) {
                     break;
@@ -288,7 +288,7 @@ public class State {
         int sum = 0;
 
         if(this.GoalTest()) {
-            System.out.println("Found a goal state, winner is: " + this.player);
+            //System.out.println("Found a goal state, winner is: " + this.player);
             return -1000;
         }
 
@@ -743,6 +743,8 @@ public class State {
         }
 
         this.grid[row][action] = token;
+        this.lastRow = row;
+        this.lastCol = action;
 
         if(token == 'W') {
             this.player = "WHITE";
